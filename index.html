@@ -1,37 +1,124 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>LMS API Management</title>
-<link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Management System</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<div class="app-shell">
-  <aside class="sidebar">
-    <div class="brand"><div class="brand-mark">L</div><div><h1>LMS Console</h1><span>API Management</span></div></div>
-    <nav id="nav"></nav>
-  </aside>
-  <main class="main">
-    <header class="topbar"><div><h2 id="title"></h2></div>
-      <button id="menuBtn" class="btn btn-ghost mobile-toggle">☰ Menu</button></header>
-    <div id="view"></div>
-  </main>
-</div>
+  <div id="app">
+<section id="dashboardPage">
+      <header class="topbar">
+        <div class="dashboard-brand">
+          <img src="spirex-logo.jpg" alt="SpireX Foundation Logo">
+          <div>
+            <h2 id="dashboardTitle">Dashboard</h2>
+            <span id="userBadge" class="badge"></span>
+          </div>
+        </div>
+        <button id="logoutBtn" class="danger">Logout</button>
+      </header>
 
-<div class="modal-backdrop" id="modal">
-  <div class="modal">
-    <div class="modal-head"><h3 id="modalTitle"></h3><button class="modal-close" id="modalClose">✕</button></div>
-    <form id="form">
-      <div class="modal-body"><div class="form-grid" id="formFields"></div></div>
-      <div class="modal-foot">
-        <button type="button" class="btn btn-ghost" id="cancelBtn">Cancel</button>
-        <button type="submit" class="btn btn-primary">Save</button>
-      </div>
-    </form>
+      <main class="container">
+        <nav class="nav-tabs">
+          <button data-view="dashboardView">Dashboard</button>
+          <button data-view="profileView">My Profile</button>
+          <button data-view="usersView" data-permission="manage_users">Manage Users</button>
+          <button data-view="studentsView" data-permission="manage_students">Manage Students</button>
+          <button data-view="rolesView" data-permission="assign_roles">Assign Roles</button>
+        </nav>
+
+        <section id="dashboardView" class="view">
+          <div class="hero">
+            <h1>Welcome, <span id="welcomeName"></span>!</h1>
+            <p id="welcomeText"></p>
+          </div>
+          <div class="grid stats">
+            <div class="card"><h3>Total Users</h3><strong id="userCount">0</strong></div>
+            <div class="card"><h3>Students</h3><strong id="studentCount">0</strong></div>
+            <div class="card"><h3>Your Role</h3><strong id="roleCount"></strong></div>
+          </div>
+          <div class="card">
+            <h2>Your Permissions</h2>
+            <ul id="permissionList"></ul>
+          </div>
+        </section>
+
+        <section id="profileView" class="view hidden">
+          <div class="card">
+            <h2>My Profile</h2>
+            <form id="profileForm" class="form-grid">
+              <div><label>Name</label><input id="profileName" required></div>
+              <div><label>Email</label><input id="profileEmail" type="email" disabled></div>
+              <div><label>Student ID</label><input id="profileStudentId"></div>
+              <div><label>Role</label><input id="profileRole" disabled></div>
+              <div class="full"><button type="submit">Save Profile</button></div>
+            </form>
+            <p id="profileMessage" class="message"></p>
+          </div>
+        </section>
+
+        <section id="usersView" class="view hidden" data-required-permission="manage_users">
+          <div class="card">
+            <div class="section-header">
+              <h2>Manage Users</h2>
+              <button id="addUserBtn">Add User</button>
+            </div>
+            <div class="table-wrap">
+              <table>
+                <thead><tr><th>Name</th><th>Email</th><th>Role</th><th>Actions</th></tr></thead>
+                <tbody id="usersTable"></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <section id="studentsView" class="view hidden" data-required-permission="manage_students">
+          <div class="card">
+            <h2>Manage Students</h2>
+            <div class="table-wrap">
+              <table>
+                <thead><tr><th>Name</th><th>Email</th><th>Student ID</th><th>Action</th></tr></thead>
+                <tbody id="studentsTable"></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <section id="rolesView" class="view hidden" data-required-permission="assign_roles">
+          <div class="card">
+            <h2>Assign Roles</h2>
+            <p class="muted">Admins can change a user's role.</p>
+            <div id="roleAssignmentList"></div>
+          </div>
+        </section>
+
+        <section id="accessDenied" class="card hidden">
+          <h2>Access Denied</h2>
+          <p>You do not have permission to access this section.</p>
+          <button onclick="showView('dashboardView')">Return to Dashboard</button>
+        </section>
+      </main>
+    </section>
   </div>
-</div>
-<div id="toast-stack"></div>
-<script src="script.js"></script>
+
+  <div id="userModal" class="modal hidden">
+    <div class="card modal-card">
+      <button class="close" id="closeModal">×</button>
+      <h2>Add User</h2>
+      <form id="addUserForm">
+        <label>Name</label><input id="newName" required>
+        <label>Email</label><input id="newEmail" type="email" required>
+        <label>Password</label><input id="newPassword" type="password" required minlength="6">
+        <label>Role</label>
+        <select id="newRole"><option>Student</option><option>Teacher</option><option>Staff</option><option>Parent</option></select>
+        <button type="submit">Create User</button>
+      </form>
+      <p id="userMessage" class="message"></p>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
 </body>
 </html>

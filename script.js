@@ -1,217 +1,311 @@
-const KEY = "lms_db_v2";
-const seed = () => ({
-  users: [
-    { id: "USR-1", name: "Dr. Meera Krishnan", email: "meera@lms.edu", role: "faculty", status: "active" },
-    { id: "USR-2", name: "Sanjana Iyer", email: "sanjana@lms.edu", role: "student", status: "active" },
-    { id: "USR-3", name: "Rahul Menon", email: "rahul@lms.edu", role: "student", status: "active" }
+const STORAGE_KEY = "studentManagementUsers";
+
+const ADMIN_ACCOUNT = {
+  id: "admin",
+  name: "Admin User",
+  email: "admin@example.com",
+  password: "admin123",
+  role: "Admin",
+  studentId: ""
+};
+
+const defaultUsers = [
+  {
+    id: 2, name: "Student User", email: "student@example.com",
+    password: "student123", role: "Student", studentId: "ST-001"
+  }
+];
+
+const permissions = {
+  Admin: [
+    "view_dashboard", "view_profile", "edit_profile",
+    "manage_users", "manage_students", "assign_roles"
   ],
-  courses: [
-    { id: "CRS-1", name: "Full-Stack Web Development", instructorId: "USR-1", status: "active" },
-    { id: "CRS-2", name: "Database Systems", instructorId: "USR-1", status: "draft" }
+  Teacher: [
+    "view_dashboard", "view_profile", "edit_profile",
+    "view_students", "manage_student_records"
   ],
-  subjects: [
-    { id: "SUB-1", name: "REST API Design", courseId: "CRS-1", facultyId: "USR-1", credits: 4 },
-    { id: "SUB-2", name: "SQL Fundamentals", courseId: "CRS-2", facultyId: "USR-1", credits: 3 }
+  Staff: [
+    "view_dashboard", "view_profile", "edit_profile",
+    "view_students"
   ],
-  assignments: [
-    { id: "ASG-1", title: "Build a CRUD endpoint", subjectId: "SUB-1", studentId: "USR-2", dueDate: "2026-10-10", status: "submitted" }
+  Student: [
+    "view_dashboard", "view_profile", "edit_profile"
   ],
-  attendance: [
-    { id: "ATD-1", studentId: "USR-2", subjectId: "SUB-1", date: "2026-09-28", status: "present" },
-    { id: "ATD-2", studentId: "USR-3", subjectId: "SUB-1", date: "2026-09-28", status: "absent" }
-  ],
-  marks: [
-    { id: "MRK-1", studentId: "USR-2", subjectId: "SUB-1", type: "assignment", max: 50, obtained: 42 }
-  ],
-  quizzes: [
-    { id: "QZ-1", title: "REST Basics", subjectId: "SUB-1", duration: 15, status: "published",
-      questions: [
-        { q: "Which method fully replaces a resource?", options: ["GET", "POST", "PUT"], answer: "PUT" },
-        { q: "Which status code means Created?", options: ["200", "201", "404"], answer: "201" }
-      ] }
-  ],
-  results: [
-    { id: "QR-1", quizId: "QZ-1", studentId: "USR-3", score: 2, total: 2 }
+  Parent: [
+    "view_dashboard", "view_profile", "edit_profile",
+    "view_student_progress"
   ]
-});
-const load = () => { try { return JSON.parse(localStorage.getItem(KEY)) || save(seed()); } catch { return save(seed()); } };
-const save = (db) => { localStorage.setItem(KEY, JSON.stringify(db)); return db; };
-const STATUS = ["active", "inactive", "draft", "published", "submitted", "pending", "present", "absent", "late"];
-const opts = (...v) => v;
-const R = {
-  users: { label: "Users", fields: [
-    { n: "name", req: 1 }, { n: "email", req: 1 },
-    { n: "role", req: 1, opts: opts("student", "faculty", "admin") },
-    { n: "status", req: 1, opts: opts("active", "inactive") }] },
-  courses: { label: "Courses", fields: [
-    { n: "name", req: 1 }, { n: "instructorId", label: "Instructor", req: 1, ref: "users", role: "faculty" },
-    { n: "status", req: 1, opts: opts("active", "draft", "archived") }] },
-  subjects: { label: "Subjects", fields: [
-    { n: "name", req: 1 }, { n: "courseId", label: "Course", req: 1, ref: "courses" },
-    { n: "facultyId", label: "Faculty", req: 1, ref: "users", role: "faculty" }, { n: "credits", type: "number", req: 1 }] },
-  assignments: { label: "Assignments", fields: [
-    { n: "title", req: 1 }, { n: "subjectId", label: "Subject", req: 1, ref: "subjects" },
-    { n: "studentId", label: "Student", req: 1, ref: "users", role: "student" },
-    { n: "dueDate", type: "date", req: 1 }, { n: "status", opts: opts("pending", "submitted", "graded", "late") }] },
-  attendance: { label: "Attendance", fields: [
-    { n: "studentId", label: "Student", req: 1, ref: "users", role: "student" },
-    { n: "subjectId", label: "Subject", req: 1, ref: "subjects" }, { n: "date", type: "date", req: 1 },
-    { n: "status", req: 1, opts: opts("present", "absent", "late") }] },
-  marks: { label: "Marks", fields: [
-    { n: "studentId", label: "Student", req: 1, ref: "users", role: "student" },
-    { n: "subjectId", label: "Subject", req: 1, ref: "subjects" },
-    { n: "type", req: 1, opts: opts("assignment", "quiz", "exam") },
-    { n: "max", label: "Max marks", type: "number", req: 1 }, { n: "obtained", type: "number", req: 1 }] },
-  quizzes: { label: "Quizzes", fields: [
-    { n: "title", req: 1 }, { n: "subjectId", label: "Subject", req: 1, ref: "subjects" },
-    { n: "duration", label: "Duration (min)", type: "number", req: 1 },
-    { n: "status", opts: opts("draft", "published") },
-    { n: "questions", type: "questions", full: 1,
-      label: "Questions (one per line:  Question | option1, option2, option3 | answer)" }] },
-  results: { label: "Quiz Results", fields: [
-    { n: "quizId", label: "Quiz", req: 1, ref: "quizzes" }, { n: "studentId", label: "Student", req: 1, ref: "users", role: "student" },
-    { n: "score", type: "number", req: 1 }, { n: "total", type: "number", req: 1 }] }
-};
-const PREFIX = { users: "USR", courses: "CRS", subjects: "SUB", assignments: "ASG", attendance: "ATD", marks: "MRK", quizzes: "QZ", results: "QR" };
-function request(method, url, body = {}) {
-  const [, api, name, id] = url.split("/");
-  if (api !== "api" || !R[name]) return { status: 404, body: { error: "Unknown route " + url } };
-  const db = load(), list = db[name], i = list.findIndex((r) => r.id === id);
-  if (method === "GET") {
-    if (!id) return { status: 200, body: { count: list.length, results: list } };
-    return i < 0 ? { status: 404, body: { error: "Not found" } } : { status: 200, body: list[i] };
-  }
-  if (method === "POST") {
-    const missing = R[name].fields.filter((f) => f.req && (body[f.n] === undefined || body[f.n] === "")).map((f) => f.n);
-    if (missing.length) return { status: 400, body: { error: "Missing fields", missing } };
-    if (body.id && list.some((r) => r.id === body.id)) return { status: 409, body: { error: "ID already exists" } };
-    const rec = { id: body.id || `${PREFIX[name]}-${Date.now().toString(36).toUpperCase()}`, ...body };
-    rec.id = body.id || rec.id;
-    list.push(rec); save(db);
-    return { status: 201, body: rec };
-  }
-  if (!id) return { status: 400, body: { error: "ID required" } };
-  if (i < 0) return { status: 404, body: { error: "Not found" } };
-  if (method === "PUT") { list[i] = { ...list[i], ...body, id }; save(db); return { status: 200, body: list[i] }; }
-  if (method === "DELETE") { const [gone] = list.splice(i, 1); save(db); return { status: 200, body: { deleted: true, record: gone } }; }
-  return { status: 400, body: { error: "Unsupported method " + method } };
-}
-const $ = (id) => document.getElementById(id);
-const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
-const nameOf = (col, id) => { const r = load()[col].find((x) => x.id === id); return r ? (r.name || r.title || r.id) : id; };
-const toast = (msg, ok) => { const t = document.createElement("div"); t.className = "toast " + (ok ? "ok" : "err"); t.textContent = msg; $("toast-stack").appendChild(t); setTimeout(() => t.remove(), 3000); };
-const label = (f) => f.label || f.n[0].toUpperCase() + f.n.slice(1);
-const cell = (f, v) => {
-  if (f.type === "questions") return (v || []).length;
-  if (f.ref) return esc(nameOf(f.ref, v));
-  if (STATUS.includes(v) && f.opts) return `<span class="badge badge-${["active", "published", "present", "submitted", "graded"].includes(v) ? "ok" : ["absent"].includes(v) ? "err" : "warn"}">${esc(v)}</span>`;
-  return esc(v ?? "—");
 };
 
-let editing = null, current = null;
-function crudView(name) {
-  current = name;
-  const r = R[name], rows = load()[name];
-  $("view").innerHTML = `<section class="panel">
-    <div class="panel-head"><h3>${r.label}</h3><button class="btn btn-primary" id="addBtn">+ Add</button></div>
-    <div class="toolbar"><input type="search" id="search" placeholder="Search…"></div>
-    <div class="table-wrap"><table class="data-table"><thead><tr><th>ID</th>${r.fields.map((f) => `<th>${esc(label(f))}</th>`).join("")}<th>Actions</th></tr></thead>
-    <tbody id="tbody"></tbody></table></div></section>`;
-  const draw = () => {
-    const q = $("search").value.toLowerCase();
-    const shown = rows.filter((x) => JSON.stringify(x).toLowerCase().includes(q));
-    $("tbody").innerHTML = shown.length ? shown.map((x) => `<tr><td>${esc(x.id)}</td>${r.fields.map((f) => `<td>${cell(f, x[f.n])}</td>`).join("")}
-      <td class="row-actions"><button class="btn btn-ghost btn-sm" data-edit="${esc(x.id)}">Edit</button>
-      <button class="btn btn-danger btn-sm" data-del="${esc(x.id)}">Delete</button></td></tr>`).join("")
-      : `<tr class="empty-row"><td colspan="${r.fields.length + 2}">No records.</td></tr>`;
-  };
-  draw();
-  $("search").oninput = draw;
-  $("addBtn").onclick = () => openForm(null);
-  $("tbody").onclick = (e) => {
-    if (e.target.dataset.edit) openForm(e.target.dataset.edit);
-    if (e.target.dataset.del && confirm("Delete this record?")) {
-      request("DELETE", `/api/${name}/${e.target.dataset.del}`); toast("Deleted", true); crudView(name);
-    }
-  };
+const permissionNames = {
+  view_dashboard: "View dashboard",
+  view_profile: "View profile",
+  edit_profile: "Edit own profile",
+  manage_users: "Manage users",
+  manage_students: "Manage students",
+  assign_roles: "Assign roles",
+  view_students: "View students",
+  manage_student_records: "Manage student records",
+  view_student_progress: "View student progress"
+};
+
+let users = JSON.parse(localStorage.getItem(STORAGE_KEY)) || defaultUsers;
+// Keep the built-in Admin account separate from normal users.
+users = users.filter(user => user.role !== "Admin" && user.email !== ADMIN_ACCOUNT.email);
+let currentUser = { ...ADMIN_ACCOUNT };
+
+function saveUsers() {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(users));
 }
 
-const qToText = (qs) => (qs || []).map((x) => `${x.q} | ${x.options.join(", ")} | ${x.answer}`).join("\n");
-const textToQ = (t) => t.split("\n").map((l) => l.split("|").map((s) => s.trim())).filter((p) => p[0])
-  .map((p) => ({ q: p[0], options: (p[1] || "").split(",").map((s) => s.trim()).filter(Boolean), answer: p[2] || "" }));
-
-function openForm(id) {
-  const r = R[current], db = load(), rec = id ? db[current].find((x) => x.id === id) : {};
-  editing = id;
-  $("modalTitle").textContent = id ? "Edit " + id : "Add " + r.label;
-  $("formFields").innerHTML = r.fields.map((f) => {
-    let v = rec[f.n] ?? "", input;
-    if (f.type === "questions") input = `<textarea name="${f.n}" rows="5">${esc(qToText(rec[f.n]))}</textarea>`;
-    else if (f.opts || f.ref) {
-      const o = f.opts ? f.opts.map((x) => [x, x]) : db[f.ref].filter((x) => !f.role || x.role === f.role).map((x) => [x.id, `${x.id} — ${x.name || x.title}`]);
-      input = `<select name="${f.n}"><option value="">Select…</option>${o.map(([a, b]) => `<option value="${esc(a)}" ${a === v ? "selected" : ""}>${esc(b)}</option>`).join("")}</select>`;
-    } else input = `<input type="${f.type || "text"}" name="${f.n}" value="${esc(v)}">`;
-    return `<div class="field ${f.full ? "full" : ""}"><label>${esc(label(f))}${f.req ? " *" : ""}</label>${input}</div>`;
-  }).join("");
-  $("modal").classList.add("open");
+function hasPermission(permission) {
+  return currentUser && permissions[currentUser.role].includes(permission);
 }
-const closeForm = () => $("modal").classList.remove("open");
 
-$("form").onsubmit = (e) => {
-  e.preventDefault();
-  const data = {};
-  R[current].fields.forEach((f) => {
-    const v = $("form").elements[f.n].value;
-    data[f.n] = f.type === "number" ? (v === "" ? "" : Number(v)) : f.type === "questions" ? textToQ(v) : v;
+function findUser(id) {
+  if (String(id) === String(ADMIN_ACCOUNT.id)) return ADMIN_ACCOUNT;
+  return users.find(user => user.id === Number(id));
+}
+
+function showView(viewId) {
+  document.querySelectorAll(".view").forEach(view => view.classList.add("hidden"));
+  document.getElementById("accessDenied").classList.add("hidden");
+
+  const target = document.getElementById(viewId);
+  if (!target) return;
+
+  const required = target.dataset.requiredPermission;
+  if (required && !hasPermission(required)) {
+    document.getElementById("accessDenied").classList.remove("hidden");
+    return;
+  }
+
+  target.classList.remove("hidden");
+  refreshUI();
+}
+
+function login(email, password) {
+  const normalizedEmail = email.toLowerCase();
+
+  if (normalizedEmail === ADMIN_ACCOUNT.email && password === ADMIN_ACCOUNT.password) {
+    currentUser = { ...ADMIN_ACCOUNT };
+    sessionStorage.setItem("currentUserId", ADMIN_ACCOUNT.id);
+    return true;
+  }
+
+  const user = users.find(
+    u => u.email.toLowerCase() === normalizedEmail && u.password === password
+  );
+
+  if (!user) return false;
+
+  currentUser = user;
+  sessionStorage.setItem("currentUserId", user.id);
+  return true;
+}
+
+function logout() {
+  currentUser = null;
+  sessionStorage.removeItem("currentUserId");
+  document.getElementById("dashboardPage").classList.add("hidden");
+  document.getElementById("loginPage").classList.remove("hidden");
+  document.getElementById("loginForm").reset();
+}
+
+function openDashboard() {
+  document.getElementById("loginPage").classList.add("hidden");
+  document.getElementById("dashboardPage").classList.remove("hidden");
+  showView("dashboardView");
+}
+
+function refreshUI() {
+  if (!currentUser) return;
+
+  document.getElementById("dashboardTitle").textContent =
+    currentUser.role + " Dashboard";
+  document.getElementById("userBadge").textContent = currentUser.role;
+  document.getElementById("welcomeName").textContent = currentUser.name;
+  document.getElementById("welcomeText").textContent =
+    currentUser.role === "Admin"
+      ? "You can manage users, students, roles and profiles."
+      : "You can view and update your own profile.";
+
+  document.getElementById("userCount").textContent = users.length;
+  document.getElementById("studentCount").textContent =
+    users.filter(u => u.role === "Student").length;
+  document.getElementById("roleCount").textContent = currentUser.role;
+
+  document.querySelectorAll("[data-permission]").forEach(el => {
+    el.classList.toggle("hidden", !hasPermission(el.dataset.permission));
   });
-  const res = editing ? request("PUT", `/api/${current}/${editing}`, data) : request("POST", `/api/${current}`, data);
-  if (res.status >= 300) return toast(res.body.error + (res.body.missing ? ": " + res.body.missing.join(", ") : ""), false);
-  toast("Saved", true); closeForm(); crudView(current);
-};
-$("modalClose").onclick = $("cancelBtn").onclick = closeForm;
 
-// ---------- Dashboard ----------
-function dashboardView() {
-  const db = load();
-  $("view").innerHTML = `<div class="stat-grid">${Object.keys(R).map((k) =>
-    `<a class="stat-card" href="#${k}"><div class="label">${R[k].label}</div><div class="value">${db[k].length}</div><div class="delta">/api/${k}</div></a>`).join("")}</div>`;
+  document.getElementById("permissionList").innerHTML =
+    permissions[currentUser.role]
+      .map(p => `<li class="permission">${permissionNames[p]}</li>`)
+      .join("");
+
+  document.getElementById("profileName").value = currentUser.name;
+  document.getElementById("profileEmail").value = currentUser.email;
+  document.getElementById("profileStudentId").value = currentUser.studentId || "";
+  document.getElementById("profileRole").value = currentUser.role;
+
+  renderUsers();
+  renderStudents();
+  renderRoleAssignments();
 }
 
-function consoleView() {
-  $("view").innerHTML = `<section class="panel">
-    <div class="panel-head"><h3>API Console</h3><button class="btn btn-ghost btn-sm" id="resetBtn">Reset sample data</button></div>
-    <div class="console-row">
-      <select id="method"><option>GET</option><option>POST</option><option>PUT</option><option>DELETE</option></select>
-      <input type="text" id="endpoint" class="endpoint-url" value="/api/courses">
+function renderUsers() {
+  const tbody = document.getElementById("usersTable");
+  tbody.innerHTML = users.map(user => `
+    <tr>
+      <td>${escapeHtml(user.name)}</td>
+      <td>${escapeHtml(user.email)}</td>
+      <td>${user.role}</td>
+      <td>
+        <button class="small-btn" onclick="editUser(${user.id})">Edit</button>
+        <button class="small-btn small-danger" onclick="deleteUser(${user.id})">Delete</button>
+      </td>
+    </tr>
+  `).join("");
+}
+
+function renderStudents() {
+  const students = users.filter(u => u.role === "Student");
+  document.getElementById("studentsTable").innerHTML = students.map(user => `
+    <tr>
+      <td>${escapeHtml(user.name)}</td>
+      <td>${escapeHtml(user.email)}</td>
+      <td>${escapeHtml(user.studentId || "-")}</td>
+      <td><button class="small-btn" onclick="editUser(${user.id})">Edit</button></td>
+    </tr>
+  `).join("");
+}
+
+function renderRoleAssignments() {
+  document.getElementById("roleAssignmentList").innerHTML = users.map(user => `
+    <div class="role-row">
+      <div><strong>${escapeHtml(user.name)}</strong><br>
+      <span class="muted">${escapeHtml(user.email)}</span></div>
+      <select onchange="changeRole(${user.id}, this.value)" ${user.id === currentUser.id ? "disabled" : ""}>
+        <option value="Student" ${user.role === "Student" ? "selected" : ""}>Student</option>
+        <option value="Teacher" ${user.role === "Teacher" ? "selected" : ""}>Teacher</option>
+        <option value="Staff" ${user.role === "Staff" ? "selected" : ""}>Staff</option>
+        <option value="Parent" ${user.role === "Parent" ? "selected" : ""}>Parent</option>
+
+      </select>
     </div>
-    <div class="field"><label>Request body (JSON, for POST / PUT)</label><textarea id="body" class="code-area" spellcheck="false"></textarea></div>
-    <button class="btn btn-primary" id="send">Send Request</button>
-    <div class="response-status" id="status" style="margin-top:14px"></div>
-    <pre class="response-json" id="response">// Response appears here</pre>
-    <div class="api-ref">${Object.keys(R).map((k) => `<div class="api-line"><span class="method-tag method-GET">CRUD</span><span>/api/${k}[/:id]</span></div>`).join("")}</div>
-  </section>`;
-  $("send").onclick = () => {
-    let body = {};
-    try { body = $("body").value.trim() ? JSON.parse($("body").value) : {}; }
-    catch { return toast("Invalid JSON body", false); }
-    const res = request($("method").value, $("endpoint").value.trim(), body);
-    $("status").innerHTML = `<span class="status-pill status-${res.status < 300 ? "2xx" : "4xx"}">${res.status}</span>`;
-    $("response").textContent = JSON.stringify(res.body, null, 2);
+  `).join("");
+}
+
+function editUser(id) {
+  if (!hasPermission("manage_users")) return alert("Access denied.");
+  const user = findUser(id);
+  const newName = prompt("Enter new name:", user.name);
+  if (newName && newName.trim()) {
+    user.name = newName.trim();
+    saveUsers();
+    if (user.id === currentUser.id) currentUser = user;
+    refreshUI();
+  }
+}
+
+function deleteUser(id) {
+  if (!hasPermission("manage_users")) return alert("Access denied.");
+  if (id === currentUser.id) return alert("You cannot delete your own active account in this demo.");
+  const user = findUser(id);
+  if (!user) return;
+  if (confirm(`Delete ${user.name}?`)) {
+    users = users.filter(u => u.id !== id);
+    saveUsers();
+    refreshUI();
+  }
+}
+
+function changeRole(id, role) {
+  if (!hasPermission("assign_roles")) return alert("Access denied.");
+  const user = findUser(id);
+  if (!user || user.id === currentUser.id) return;
+  user.role = role;
+  saveUsers();
+  refreshUI();
+}
+
+function escapeHtml(value) {
+  return String(value).replace(/[&<>"']/g, char => ({
+    "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#039;"
+  }[char]));
+}
+
+document.getElementById("logoutBtn").addEventListener("click", () => {
+  alert("Login is not part of the Role & Permission Development module.");
+});
+
+document.querySelectorAll(".nav-tabs button").forEach(button => {
+  button.addEventListener("click", () => showView(button.dataset.view));
+});
+
+document.getElementById("profileForm").addEventListener("submit", e => {
+  e.preventDefault();
+  if (!hasPermission("edit_profile")) return;
+
+  currentUser.name = document.getElementById("profileName").value.trim();
+  currentUser.studentId = document.getElementById("profileStudentId").value.trim();
+
+  const storedUser = findUser(currentUser.id);
+  Object.assign(storedUser, {
+    name: currentUser.name,
+    studentId: currentUser.studentId
+  });
+
+  saveUsers();
+  document.getElementById("profileMessage").textContent = "Profile updated successfully.";
+  refreshUI();
+});
+
+document.getElementById("addUserBtn").addEventListener("click", () => {
+  if (!hasPermission("manage_users")) return alert("Access denied.");
+  document.getElementById("userModal").classList.remove("hidden");
+});
+
+document.getElementById("closeModal").addEventListener("click", () => {
+  document.getElementById("userModal").classList.add("hidden");
+});
+
+document.getElementById("addUserForm").addEventListener("submit", e => {
+  e.preventDefault();
+
+  const email = document.getElementById("newEmail").value.trim();
+  if (users.some(u => u.email.toLowerCase() === email.toLowerCase())) {
+    document.getElementById("userMessage").textContent = "Email already exists.";
+    return;
+  }
+
+  const newUser = {
+    id: Date.now(),
+    name: document.getElementById("newName").value.trim(),
+    email,
+    password: document.getElementById("newPassword").value,
+    role: document.getElementById("newRole").value,
+    studentId: document.getElementById("newRole").value === "Student"
+      ? "ST-" + String(users.length + 1).padStart(3, "0") : ""
   };
-  $("resetBtn").onclick = () => { save(seed()); toast("Sample data restored", true); };
-}
 
-const pages = { dashboard: ["Dashboard", dashboardView], console: ["API Console", consoleView] };
-Object.keys(R).forEach((k) => (pages[k] = [R[k].label, () => crudView(k)]));
+  users.push(newUser);
+  saveUsers();
+  document.getElementById("addUserForm").reset();
+  document.getElementById("userModal").classList.add("hidden");
+  document.getElementById("userMessage").textContent = "";
+  refreshUI();
+});
 
-$("nav").innerHTML = Object.keys(pages).map((k) => `<a href="#${k}" data-k="${k}">${pages[k][0]}</a>`).join("");
-function route() {
-  const k = pages[location.hash.slice(1)] ? location.hash.slice(1) : "dashboard";
-  $("title").textContent = pages[k][0];
-  document.querySelectorAll("#nav a").forEach((a) => a.classList.toggle("active", a.dataset.k === k));
-  pages[k][1]();
-  document.querySelector(".sidebar").classList.remove("open");
-}
-$("menuBtn").onclick = () => document.querySelector(".sidebar").classList.toggle("open");
-window.addEventListener("hashchange", route);
-route();
+window.editUser = editUser;
+window.deleteUser = deleteUser;
+window.changeRole = changeRole;
+window.showView = showView;
+
+
+
+// Login interface removed for the Role & Permission Development demo.
+// Start directly on the existing dashboard without changing its interface.
+showView("dashboardView");
