@@ -1,1 +1,571 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SpireX Foundation | User Management</title>
+<link rel="stylesheet" href="style.css">
+</head>
 
+<body>
+
+<div class="layout">
+
+<aside class="sidebar">
+
+<div class="logo-box">
+<img src="./spirex-logo.png" alt="SpireX Foundation Logo">
+</div>
+
+<div class="workspace">
+<span>WORKSPACE</span>
+<strong>Foundation LMS</strong>
+</div>
+
+<nav>
+<a href="#" data-page="dashboard">Dashboard</a>
+<a href="#" data-page="learning">Learning</a>
+<a href="#" data-page="users" class="active">Users</a>
+<a href="#" data-page="roles">Roles & Access</a>
+<a href="#" data-page="profile">My Profile</a>
+<a href="#" data-page="settings">Settings</a>
+</nav>
+
+<div class="sidebar-footer">
+<strong>SpireX Foundation</strong>
+<span>Learning Management System</span>
+</div>
+
+</aside>
+
+<main class="main">
+
+<header class="topbar">
+
+<div>
+<div class="breadcrumb">Foundation LMS / Users</div>
+<h1 id="pageTitle">User Management</h1>
+<p id="pageSubtitle">Manage learners, interns and platform accounts.</p>
+</div>
+
+<div class="admin-area">
+<div class="notification">🔔</div>
+<div class="admin-avatar">SA</div>
+<div class="admin-text">
+<strong>System Admin</strong>
+<span>Administrator</span>
+</div>
+</div>
+
+</header>
+
+
+<section id="dashboard" class="page hidden">
+
+<div class="welcome">
+
+<div>
+<span>SPIREX FOUNDATION LMS</span>
+<h2>Learning Operations Overview</h2>
+<p>Monitor users, learning activities and platform operations.</p>
+</div>
+
+<div class="date-box">30 Sep 2026</div>
+
+</div>
+
+<div class="stats">
+
+<div class="stat-card">
+<div class="stat-icon">👥</div>
+<div>
+<span>Total Learners</span>
+<h2 id="dashboardTotal">0</h2>
+<small>Registered accounts</small>
+</div>
+</div>
+
+<div class="stat-card">
+<div class="stat-icon">✓</div>
+<div>
+<span>Active Accounts</span>
+<h2 id="dashboardActive">0</h2>
+<small>Currently active</small>
+</div>
+</div>
+
+<div class="stat-card">
+<div class="stat-icon">📚</div>
+<div>
+<span>Learning Programs</span>
+<h2>8</h2>
+<small>Available programs</small>
+</div>
+</div>
+
+<div class="stat-card">
+<div class="stat-icon">🆕</div>
+<div>
+<span>New Users</span>
+<h2 id="dashboardNew">0</h2>
+<small>Recently registered</small>
+</div>
+</div>
+
+</div>
+
+<div class="dashboard-grid">
+
+<div class="dashboard-box">
+
+<div class="box-heading">
+<div>
+<h3>Recent Platform Activity</h3>
+<p>Latest user activities</p>
+</div>
+</div>
+
+<div class="activity">
+<div class="activity-icon">👤</div>
+<div>
+<strong>New learner registered</strong>
+<p>Frontend Development</p>
+</div>
+<span>10 min ago</span>
+</div>
+
+<div class="activity">
+<div class="activity-icon">✓</div>
+<div>
+<strong>Account activated</strong>
+<p>UI/UX Design</p>
+</div>
+<span>35 min ago</span>
+</div>
+
+<div class="activity">
+<div class="activity-icon">📚</div>
+<div>
+<strong>Learning enrollment updated</strong>
+<p>Full Stack Development</p>
+</div>
+<span>1 hr ago</span>
+</div>
+
+</div>
+
+<div class="dashboard-box">
+
+<h3>Program Overview</h3>
+
+<div class="summary-row">
+<span>Frontend Development</span>
+<strong>38</strong>
+</div>
+
+<div class="summary-row">
+<span>UI/UX Design</span>
+<strong>26</strong>
+</div>
+
+<div class="summary-row">
+<span>Full Stack Development</span>
+<strong>31</strong>
+</div>
+
+<div class="summary-row">
+<span>Data Analytics</span>
+<strong>19</strong>
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+<section id="learning" class="page hidden">
+
+<div class="content-card">
+
+<div class="section-heading">
+<div>
+<span>LEARNING MANAGEMENT</span>
+<h2>Learning Programs</h2>
+<p>Programs currently available on the SpireX Foundation LMS.</p>
+</div>
+
+<button class="primary-btn">+ Create Program</button>
+</div>
+
+<div class="program-grid">
+
+<div class="program-card">
+<div class="program-status">Active</div>
+<h3>Frontend Development</h3>
+<p>HTML, CSS, JavaScript and responsive web development.</p>
+<div class="program-info">
+<span>38 Learners</span>
+<span>12 Modules</span>
+</div>
+</div>
+
+<div class="program-card">
+<div class="program-status">Active</div>
+<h3>UI/UX Design</h3>
+<p>User research, wireframes, Figma and interface design.</p>
+<div class="program-info">
+<span>26 Learners</span>
+<span>10 Modules</span>
+</div>
+</div>
+
+<div class="program-card">
+<div class="program-status">Active</div>
+<h3>Full Stack Development</h3>
+<p>Frontend, backend, database and application development.</p>
+<div class="program-info">
+<span>31 Learners</span>
+<span>15 Modules</span>
+</div>
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+<section id="users" class="page">
+
+<div class="stats">
+
+<div class="stat-card">
+<div class="stat-icon">👥</div>
+<div>
+<span>Total Learners</span>
+<h2 id="totalUsers">0</h2>
+<small>All registered accounts</small>
+</div>
+</div>
+
+<div class="stat-card">
+<div class="stat-icon">✓</div>
+<div>
+<span>Active Accounts</span>
+<h2 id="activeUsers">0</h2>
+<small>Currently active</small>
+</div>
+</div>
+
+<div class="stat-card">
+<div class="stat-icon">⏸</div>
+<div>
+<span>Inactive Accounts</span>
+<h2 id="inactiveUsers">0</h2>
+<small>Access disabled</small>
+</div>
+</div>
+
+<div class="stat-card">
+<div class="stat-icon">🆕</div>
+<div>
+<span>Recently Joined</span>
+<h2 id="recentUsers">0</h2>
+<small>Last 30 days</small>
+</div>
+</div>
+
+</div>
+
+
+<section class="user-section">
+
+<div class="section-header">
+
+<div>
+<span>USER DIRECTORY</span>
+<h2>Platform Users</h2>
+<p>Manage registered learners and internship participants.</p>
+</div>
+
+<button class="add-btn" onclick="openModal()">+ Add User</button>
+
+</div>
+
+
+<div class="filters">
+
+<div class="search-box">
+<span>⌕</span>
+<input type="text" id="searchInput" placeholder="Search name, email or learner ID..." onkeyup="displayUsers()">
+</div>
+
+<select id="statusFilter" onchange="displayUsers()">
+<option value="all">All Status</option>
+<option value="active">Active</option>
+<option value="inactive">Inactive</option>
+</select>
+
+<select id="programFilter" onchange="displayUsers()">
+<option value="all">All Programs</option>
+<option value="Frontend Development">Frontend Development</option>
+<option value="UI/UX Design">UI/UX Design</option>
+<option value="Full Stack Development">Full Stack Development</option>
+<option value="Data Analytics">Data Analytics</option>
+</select>
+
+</div>
+
+
+<div class="table-container">
+
+<table>
+
+<thead>
+
+<tr>
+<th>Learner</th>
+<th>Program</th>
+<th>Department</th>
+<th>Status</th>
+<th>Last Active</th>
+<th>Joined</th>
+<th>Actions</th>
+</tr>
+
+</thead>
+
+<tbody id="userTable"></tbody>
+
+</table>
+
+</div>
+
+</section>
+
+</section>
+
+
+<section id="roles" class="page hidden">
+
+<div class="content-card">
+
+<div class="section-heading">
+
+<div>
+<span>ACCESS CONTROL</span>
+<h2>Roles & Access</h2>
+<p>System roles configured for the Foundation LMS.</p>
+</div>
+
+</div>
+
+<div class="role-grid">
+
+<div class="role-card">
+<span>System Role</span>
+<h3>Administrator</h3>
+<p>Platform administration and management access.</p>
+</div>
+
+<div class="role-card">
+<span>System Role</span>
+<h3>Instructor</h3>
+<p>Learning content and learner management access.</p>
+</div>
+
+<div class="role-card">
+<span>System Role</span>
+<h3>Learner</h3>
+<p>Access assigned learning programs and resources.</p>
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+<section id="profile" class="page hidden">
+
+<div class="content-card profile-card">
+
+<div class="profile-avatar">SA</div>
+
+<span>ADMINISTRATOR ACCOUNT</span>
+
+<h2>System Administrator</h2>
+
+<p class="profile-role">Platform Administrator</p>
+
+<div class="profile-info">
+
+<div>
+<span>Full Name</span>
+<strong>System Administrator</strong>
+</div>
+
+<div>
+<span>Email</span>
+<strong>admin@spirexfoundation.org</strong>
+</div>
+
+<div>
+<span>Department</span>
+<strong>Learning Operations</strong>
+</div>
+
+<div>
+<span>Account Status</span>
+<strong class="active-text">Active</strong>
+</div>
+
+</div>
+
+<button class="profile-btn">Edit Profile</button>
+
+</div>
+
+</section>
+
+
+<section id="settings" class="page hidden">
+
+<div class="content-card">
+
+<div class="section-heading">
+
+<div>
+<span>PLATFORM SETTINGS</span>
+<h2>Settings</h2>
+<p>Configure your LMS preferences.</p>
+</div>
+
+</div>
+
+<div class="setting-row">
+
+<div>
+<strong>Email Notifications</strong>
+<p>Receive important platform and account notifications.</p>
+</div>
+
+<label class="switch">
+<input type="checkbox" checked>
+<span></span>
+</label>
+
+</div>
+
+<div class="setting-row">
+
+<div>
+<strong>Learning Activity Updates</strong>
+<p>Receive updates related to learner activities.</p>
+</div>
+
+<label class="switch">
+<input type="checkbox" checked>
+<span></span>
+</label>
+
+</div>
+
+<div class="setting-row">
+
+<div>
+<strong>New User Alerts</strong>
+<p>Notify administrators when a new learner registers.</p>
+</div>
+
+<label class="switch">
+<input type="checkbox" checked>
+<span></span>
+</label>
+
+</div>
+
+</div>
+
+</section>
+
+</main>
+
+</div>
+
+
+<div class="modal" id="userModal">
+
+<div class="modal-box">
+
+<div class="modal-header">
+
+<div>
+<span>USER ACCOUNT</span>
+<h2 id="modalTitle">Add User</h2>
+<p>Create a learner account for the Foundation LMS.</p>
+</div>
+
+<button onclick="closeModal()">×</button>
+
+</div>
+
+<form id="userForm">
+
+<input type="hidden" id="editId">
+
+<label>Learner ID</label>
+<input type="text" id="learnerId" placeholder="Example: SPX2026001" required>
+
+<label>Full Name</label>
+<input type="text" id="name" placeholder="Enter full name" required>
+
+<label>Email Address</label>
+<input type="email" id="email" placeholder="Enter official email" required>
+
+<label>Program</label>
+
+<select id="program" required>
+
+<option value="">Select Program</option>
+<option>Frontend Development</option>
+<option>UI/UX Design</option>
+<option>Full Stack Development</option>
+<option>Data Analytics</option>
+
+</select>
+
+<label>Department</label>
+
+<select id="department" required>
+
+<option value="">Select Department</option>
+<option>Technology</option>
+<option>Design</option>
+<option>Data</option>
+<option>Management</option>
+
+</select>
+
+<div class="form-buttons">
+
+<button type="button" class="cancel" onclick="closeModal()">Cancel</button>
+
+<button type="submit" class="save">Save User</button>
+
+</div>
+
+</form>
+
+</div>
+
+</div>
+
+<script src="script.js"></script>
+
+</body>
+</html>
