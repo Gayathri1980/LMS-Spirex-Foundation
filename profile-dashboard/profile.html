@@ -1,0 +1,763 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>SpireX Dashboard</title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <div class="app">
+
+    <!-- ================= SIDEBAR ================= -->
+    <aside class="sidebar">
+
+      <div class="brand">
+
+        <div class="logo-box">
+          <img
+            src="spirex-foundation-logo-clean.png"
+            alt="SpireX Foundation"
+          >
+        </div>
+
+        <div>
+          <h2>SpireX</h2>
+          <p>Foundation</p>
+        </div>
+
+      </div>
+
+      <div class="platform">
+        <span class="dot"></span>
+        SPIREX LEARNING PLATFORM
+      </div>
+
+      <nav class="nav">
+
+        <button class="nav-item active" data-page="dashboard">
+          <span class="nav-icon">⌂</span>
+          Dashboard
+        </button>
+
+        <button class="nav-item" data-page="profile">
+          <span class="nav-icon">◉</span>
+          My Profile
+        </button>
+
+      </nav>
+
+      <div class="sidebar-user">
+
+        <div class="avatar">HZ</div>
+
+        <div>
+          <strong>Hijab Zahra</strong>
+          <small>Student</small>
+        </div>
+
+      </div>
+
+    </aside>
+
+
+    <!-- ================= MAIN ================= -->
+    <main class="main">
+
+      <!-- TOPBAR -->
+      <header class="topbar">
+
+        <div>
+          <span class="small-label">SPIREX FOUNDATION</span>
+          <h1 id="pageTitle">Dashboard</h1>
+        </div>
+
+        <div class="top-user">
+
+          <div class="avatar small">HZ</div>
+
+          <div>
+            <strong>Hijab Zahra</strong>
+            <small>Student</small>
+          </div>
+
+        </div>
+
+      </header>
+
+
+      <!-- ================= DASHBOARD ================= -->
+      <section class="page active-page" id="dashboard">
+
+        <!-- HERO -->
+        <div class="hero">
+
+          <div class="hero-content">
+
+            <div class="hero-pill">
+              <span></span>
+              LEARN • BUILD • RISE
+            </div>
+
+            <h2>
+              Welcome back,
+              <strong>Hijab!</strong>
+            </h2>
+
+            <p>
+              Keep learning, keep building and continue your journey
+              with SpireX Foundation.
+            </p>
+
+            <button class="primary-btn" id="continueBtn">
+              Continue Learning →
+            </button>
+
+          </div>
+
+          <div class="hero-shape shape-one"></div>
+          <div class="hero-shape shape-two"></div>
+          <div class="hero-ring"></div>
+
+        </div>
+
+
+        <!-- STATS -->
+        <div class="stats">
+
+          <div class="stat-card">
+
+            <div class="stat-icon">▣</div>
+
+            <div>
+              <span>ENROLLED COURSES</span>
+              <strong>04</strong>
+            </div>
+
+          </div>
+
+
+          <div class="stat-card">
+
+            <div class="stat-icon">✓</div>
+
+            <div>
+              <span>COMPLETED</span>
+              <strong>02</strong>
+            </div>
+
+          </div>
+
+
+          <div class="stat-card">
+
+            <div class="stat-icon">◔</div>
+
+            <div>
+              <span>PROJECT PROGRESS</span>
+              <strong>68%</strong>
+            </div>
+
+          </div>
+
+
+          <div class="stat-card">
+
+            <div class="stat-icon">◇</div>
+
+            <div>
+              <span>CERTIFICATES</span>
+              <strong>02</strong>
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <!-- CONTENT GRID -->
+        <div class="content-grid">
+
+          <!-- COURSES -->
+          <div class="card">
+
+            <div class="card-header">
+
+              <div>
+                <span class="section-label">YOUR LEARNING</span>
+                <h3>Current Courses</h3>
+              </div>
+
+              <button class="text-btn">
+                View All →
+              </button>
+
+            </div>
+
+
+            <!-- COURSE 1 -->
+            <div class="course">
+
+              <div class="course-icon blue-icon">
+                &lt;/&gt;
+              </div>
+
+              <div class="course-info">
+
+                <div class="course-title">
+                  <strong>Frontend Development</strong>
+                  <span>78%</span>
+                </div>
+
+                <div class="progress">
+                  <div style="width: 78%;"></div>
+                </div>
+
+                <small>
+                  HTML • CSS • JavaScript
+                </small>
+
+              </div>
+
+            </div>
+
+
+            <!-- COURSE 2 -->
+            <div class="course">
+
+              <div class="course-icon purple-icon">
+                Py
+              </div>
+
+              <div class="course-info">
+
+                <div class="course-title">
+                  <strong>Python Programming</strong>
+                  <span>62%</span>
+                </div>
+
+                <div class="progress">
+                  <div style="width: 62%;"></div>
+                </div>
+
+                <small>
+                  Programming Fundamentals
+                </small>
+
+              </div>
+
+            </div>
+
+
+            <!-- COURSE 3 -->
+            <div class="course">
+
+              <div class="course-icon cyan-icon">
+                AI
+              </div>
+
+              <div class="course-info">
+
+                <div class="course-title">
+                  <strong>AI Fundamentals</strong>
+                  <span>45%</span>
+                </div>
+
+                <div class="progress">
+                  <div style="width: 45%;"></div>
+                </div>
+
+                <small>
+                  Artificial Intelligence Basics
+                </small>
+
+              </div>
+
+            </div>
+
+          </div>
+
+
+          <!-- PROJECT -->
+          <div class="card project-card">
+
+            <div class="card-header">
+
+              <div>
+                <span class="section-label">YOUR JOURNEY</span>
+                <h3>Project Journey</h3>
+              </div>
+
+              <span class="status">
+                IN PROGRESS
+              </span>
+
+            </div>
+
+            <div class="project-icon">
+              ⌁
+            </div>
+
+            <h4>LMS Frontend Project</h4>
+
+            <p>
+              Profile &amp; Dashboard Module
+            </p>
+
+            <div class="project-progress">
+
+              <div class="progress-title">
+                <span>Overall Progress</span>
+                <strong>68%</strong>
+              </div>
+
+              <div class="progress">
+                <div style="width: 68%;"></div>
+              </div>
+
+            </div>
+
+            <div class="project-steps">
+
+              <span class="done">
+                ✓ UI Design
+              </span>
+
+              <span class="done">
+                ✓ Frontend
+              </span>
+
+              <span>
+                ○ Testing
+              </span>
+
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <!-- BOTTOM GRID -->
+        <div class="bottom-grid">
+
+          <!-- RECENT ACTIVITY -->
+          <div class="card">
+
+            <div class="card-header">
+
+              <div>
+                <span class="section-label">
+                  ACTIVITY
+                </span>
+
+                <h3>
+                  Recent Activity
+                </h3>
+              </div>
+
+            </div>
+
+
+            <div class="activity">
+
+              <div class="activity-dot"></div>
+
+              <div>
+                <strong>
+                  Frontend Development
+                </strong>
+
+                <p>
+                  Completed a learning module
+                </p>
+
+                <small>
+                  Today
+                </small>
+              </div>
+
+            </div>
+
+
+            <div class="activity">
+
+              <div class="activity-dot"></div>
+
+              <div>
+                <strong>
+                  Python Programming
+                </strong>
+
+                <p>
+                  Progress updated to 62%
+                </p>
+
+                <small>
+                  Yesterday
+                </small>
+              </div>
+
+            </div>
+
+
+            <div class="activity">
+
+              <div class="activity-dot"></div>
+
+              <div>
+                <strong>
+                  Profile Updated
+                </strong>
+
+                <p>
+                  Your profile information was updated
+                </p>
+
+                <small>
+                  2 days ago
+                </small>
+              </div>
+
+            </div>
+
+          </div>
+
+
+          <!-- QUICK ACTIONS -->
+          <div class="card quick-card">
+
+            <div class="card-header">
+
+              <div>
+                <span class="section-label">
+                  QUICK ACTIONS
+                </span>
+
+                <h3>
+                  Get Started
+                </h3>
+              </div>
+
+            </div>
+
+
+            <button
+              class="quick-btn"
+              data-page="profile"
+            >
+              <span>◉</span>
+              View My Profile
+              <b>→</b>
+            </button>
+
+
+            <button
+              class="quick-btn"
+              id="learningBtn"
+            >
+              <span>▣</span>
+              Continue Learning
+              <b>→</b>
+            </button>
+
+
+            <button
+              class="quick-btn"
+              id="certificateBtn"
+            >
+              <span>◇</span>
+              My Certificates
+              <b>→</b>
+            </button>
+
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- ================= PROFILE ================= -->
+      <section class="page" id="profile">
+
+        <!-- PROFILE HEADER -->
+        <div class="profile-header">
+
+          <div class="profile-avatar">
+            HZ
+          </div>
+
+          <div>
+
+            <span class="section-label">
+              STUDENT PROFILE
+            </span>
+
+            <h2>
+              Hijab Zahra
+            </h2>
+
+            <p>
+              SpireX Foundation Student
+            </p>
+
+          </div>
+
+          <button
+            class="outline-btn"
+            id="editBtn"
+          >
+            Edit Profile
+          </button>
+
+        </div>
+
+
+        <!-- PROFILE GRID -->
+        <div class="profile-grid">
+
+          <!-- PROFILE DETAILS -->
+          <div class="card">
+
+            <div class="card-header">
+
+              <div>
+
+                <span class="section-label">
+                  PERSONAL INFORMATION
+                </span>
+
+                <h3>
+                  Profile Details
+                </h3>
+
+              </div>
+
+            </div>
+
+
+            <form id="profileForm">
+
+              <div class="form-grid">
+
+                <div class="field">
+
+                  <label>
+                    Full Name
+                  </label>
+
+                  <input
+                    id="fullName"
+                    value="Hijab Zahra"
+                    disabled
+                  >
+
+                </div>
+
+
+                <div class="field">
+
+                  <label>
+                    Email Address
+                  </label>
+
+                  <input
+                    id="email"
+                    value="hijab@example.com"
+                    disabled
+                  >
+
+                </div>
+
+
+                <div class="field">
+
+                  <label>
+                    Phone Number
+                  </label>
+
+                  <input
+                    id="phone"
+                    value="+92 300 0000000"
+                    disabled
+                  >
+
+                </div>
+
+
+                <div class="field">
+
+                  <label>
+                    City
+                  </label>
+
+                  <input
+                    id="city"
+                    value="Islamabad"
+                    disabled
+                  >
+
+                </div>
+
+
+                <div class="field">
+
+                  <label>
+                    Education
+                  </label>
+
+                  <input
+                    id="education"
+                    value="FSC Pre-Medical"
+                    disabled
+                  >
+
+                </div>
+
+
+                <div class="field">
+
+                  <label>
+                    Learning Track
+                  </label>
+
+                  <input
+                    id="track"
+                    value="Frontend Development"
+                    disabled
+                  >
+
+                </div>
+
+              </div>
+
+
+              <div class="form-actions">
+
+                <button
+                  type="button"
+                  class="cancel-btn"
+                  id="cancelBtn"
+                  hidden
+                >
+                  Cancel
+                </button>
+
+                <button
+                  type="submit"
+                  class="primary-btn"
+                  id="saveBtn"
+                  hidden
+                >
+                  Save Changes
+                </button>
+
+              </div>
+
+            </form>
+
+          </div>
+
+
+          <!-- LEARNING SUMMARY -->
+          <div class="card profile-side">
+
+            <span class="section-label">
+              LEARNING SUMMARY
+            </span>
+
+            <h3>
+              Your Progress
+            </h3>
+
+
+            <div class="summary-item">
+
+              <span>
+                Courses Enrolled
+              </span>
+
+              <strong>
+                04
+              </strong>
+
+            </div>
+
+
+            <div class="summary-item">
+
+              <span>
+                Courses Completed
+              </span>
+
+              <strong>
+                02
+              </strong>
+
+            </div>
+
+
+            <div class="summary-item">
+
+              <span>
+                Certificates
+              </span>
+
+              <strong>
+                02
+              </strong>
+
+            </div>
+
+
+            <div class="summary-item">
+
+              <span>
+                Project Progress
+              </span>
+
+              <strong>
+                68%
+              </strong>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- FOOTER -->
+      <footer>
+
+        <span>
+          © 2026 SpireX Foundation
+        </span>
+
+        <span>
+          Learn • Build • Rise
+        </span>
+
+      </footer>
+
+    </main>
+
+  </div>
+
+
+  <!-- JAVASCRIPT -->
+  <script src="script.js"></script>
+
+</body>
+</html>
+```
