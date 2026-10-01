@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SpireX - LMS API Management</title>
+<link rel="icon" href="logo-light.webp">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="app-shell">
+  <header class="topnav">
+    <a class="brand" href="#dashboard"><img src="logo-light.webp" alt="SpireX logo"></a>
+    <button id="menuBtn" class="btn btn-ghost mobile-toggle" aria-label="Toggle menu">☰ Menu</button>
+    <nav id="nav"></nav>
+  </header>
+  <main class="main">
+    <header class="topbar"><div><h2 id="title"></h2></div></header>
+    <div id="view"></div>
+  </main>
+</div>
+
+<div class="modal-backdrop" id="modal">
+  <div class="modal">
+    <div class="modal-head"><h3 id="modalTitle"></h3><button class="modal-close" id="modalClose">✕</button></div>
+    <form id="form">
+      <div class="modal-body"><div class="form-grid" id="formFields"></div></div>
+      <div class="modal-foot">
+        <button type="button" class="btn btn-ghost" id="cancelBtn">Cancel</button>
+        <button type="submit" class="btn btn-primary">Save</button>
+      </div>
+    </form>
+  </div>
+</div>
+<div id="toast-stack"></div>
+<script src="script.js"></script>
+</body>
+</html>
