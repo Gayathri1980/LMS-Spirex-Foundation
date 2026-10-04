@@ -1,1 +1,129 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="SpireX Foundation Learning Management System">
+    <title>SpireX Learning Platform</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="page">
+        <header class="top-logo">
+            <img src="image.png" alt="SpireX Foundation">
+        </header>
+
+        <main class="auth-container">
+            <section class="welcome-section">
+                <div class="platform-badge">
+                    <span></span>
+                    SPIREX LEARNING PLATFORM
+                </div>
+
+                <h1>Learn.<br><span>Build.</span><br>Rise.</h1>
+
+                <p class="welcome-description">
+                    Welcome to the SpireX Foundation Learning Management System.
+                    Learn new skills, access courses, complete assignments and
+                    track your learning journey.
+                </p>
+
+                <div class="feature">
+                    <div class="feature-icon">🔐</div>
+                    <div>
+                        <h3>Secure Access</h3>
+                        <p>Protected authentication interface</p>
+                    </div>
+                </div>
+
+                <div class="feature">
+                    <div class="feature-icon">📚</div>
+                    <div>
+                        <h3>Smart Learning</h3>
+                        <p>Courses and learning resources</p>
+                    </div>
+                </div>
+
+                <div class="feature">
+                    <div class="feature-icon">📈</div>
+                    <div>
+                        <h3>Track Progress</h3>
+                        <p>Monitor your learning activities</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="login-section">
+                <div class="lock-icon">🔐</div>
+                <h2>Welcome Back</h2>
+                <p class="login-subtitle">Login to continue your learning journey</p>
+
+                <div class="tabs">
+                    <button type="button" class="tab active" data-tab="login">Login</button>
+                    <button type="button" class="tab" data-tab="register">Register</button>
+                </div>
+
+                <form id="loginForm">
+                    <label for="email">Email Address</label>
+                    <div class="input-box">
+                        <span>✉</span>
+                        <input type="email" id="email" placeholder="Enter your email" autocomplete="email" required>
+                    </div>
+
+                    <label for="password">Password</label>
+                    <div class="input-box">
+                        <span>🔒</span>
+                        <input type="password" id="password" placeholder="Enter your password" autocomplete="current-password" required>
+                        <button type="button" class="eye" id="togglePassword" aria-label="Show password">👁</button>
+                    </div>
+
+                    <div class="login-options">
+                        <label class="remember">
+                            <input type="checkbox" id="remember">
+                            <span>Remember me</span>
+                        </label>
+                        <button type="button" class="text-button" id="forgotPassword">Forgot Password?</button>
+                    </div>
+
+                    <button type="submit" class="login-button">Login <span>→</span></button>
+                    <p id="loginMessage" class="form-message" aria-live="polite"></p>
+                </form>
+
+                <form id="registerForm" class="hidden">
+                    <label for="fullName">Full Name</label>
+                    <div class="input-box">
+                        <span>👤</span>
+                        <input type="text" id="fullName" placeholder="Enter your name" autocomplete="name" required>
+                    </div>
+
+                    <label for="registerEmail">Email Address</label>
+                    <div class="input-box">
+                        <span>✉</span>
+                        <input type="email" id="registerEmail" placeholder="Enter your email" autocomplete="email" required>
+                    </div>
+
+                    <label for="registerPassword">Password</label>
+                    <div class="input-box">
+                        <span>🔒</span>
+                        <input type="password" id="registerPassword" placeholder="Create password" autocomplete="new-password" minlength="8" required>
+                    </div>
+
+                    <button type="submit" class="login-button">Create Account <span>→</span></button>
+                    <p id="registerMessage" class="form-message" aria-live="polite"></p>
+                </form>
+
+                <div class="create-account">
+                    <span>Don't have an account?</span>
+                    <button type="button" id="createAccount">Create Account</button>
+                </div>
+            </section>
+        </main>
+
+        <footer>© 2026 SpireX Foundation <span>|</span> Learn • Build • Rise</footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
+
